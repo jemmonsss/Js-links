@@ -18,13 +18,31 @@ Socials:
   - title: Scratch
     url: https://scratch.mit.edu/users/jemmons/
     icon: fa-solid fa-puzzle-piece
-    image: "data:image/png;base64,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"
+    svg: |
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20" height="20" aria-hidden="true">
+        <polygon points="50,15 15,42 22,42 18,65 42,46 58,46" fill="#FFAB00"/>
+        <polygon points="50,15 22,42 25,42 28,65 42,46"/>
+        <polygon points="50,65 30,48 10,65" fill="#FFAB00"/>
+        <path d="M22,28 Q50,78 78,28 Z" fill="#FFAB00"/>
+        <polygon points="90,42 96,10 74,22" fill="#FFAB00"/>
+        <polygon points="86,18 80,14 66,16" fill="#FFAB00"/>
+        <circle cx="42" cy="56" r="5.5" fill="white"/>
+        <circle cx="58" cy="56" r="5.5" fill="white"/>
+        <circle cx="42" cy="56" r="2.8" fill="#4D4D4D"/>
+        <circle cx="58" cy="56" r="2.8" fill="#4D4D4D"/>
+        <ellipse cx="50" cy="68" rx="4.5" ry="3" fill="#4D4D4D"/>
+        <path d="M46,76 Q50,80 54,76" stroke="#4D4D4D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
 
 "My Projects":
   - title: Js-Scripts (FiveM)
     url: https://jemmonsss.github.io/Js-Store
     icon: fa-solid fa-code
-    image: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWxOprm1LUFFbuVXKZGzgCXcL1EJOitMdq-sNYeMSiiA&s=10
+    svg: |
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <circle cx="12" cy="12" r="12" fill="#E53935"/>
+        <path d="M7.5,7.5 h9 v2.5 h-3.75 v11 h-1.75 v-11 h-3.5 Z" fill="white"/>
+      </svg>
 
   - title: GitHub
     url: https://github.com/jemmonsss?tab=repositories
