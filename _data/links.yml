@@ -1,0 +1,43 @@
+# Data-driven links for the link-in-bio page.
+# Add a new link under an existing category or create a new one
+# (its key will be used as the section heading).
+
+Socials:
+  - title: TikTok
+    url: https://www.tiktok.com/@J_emmons_07
+    icon: fa-brands fa-tiktok
+
+  - title: YouTube — J_emmons_07
+    url: https://www.youtube.com/@J_emmons_07
+    icon: fa-brands fa-youtube
+
+  - title: YouTube — GrandoMs
+    url: https://www.youtube.com/@grandom_1
+    icon: fa-brands fa-youtube
+
+  - title: Scratch
+    url: https://scratch.mit.edu/users/jemmons/
+    icon: fa-solid fa-puzzle-piece
+
+"My Projects":
+  - title: Js-Scripts (FiveM)
+    url: https://jemmonsss.github.io/Js-Store
+    icon: fa-solid fa-code
+
+  - title: GitHub
+    url: https://github.com/jemmonsss?tab=repositories
+    icon: fa-brands fa-github
+
+  - title: My Affiliate Links
+    url: https://jemmonsss.github.io/Js-Affliatelinks
+    icon: fa-solid fa-tag
+
+Gaming:
+  - title: Star Citizen Referral Code
+    url: https://www.robertsspaceindustries.com/enlist?referral=STAR-3QC6-3B2F
+    icon: fa-solid fa-rocket
+
+Support:
+  - title: Support me :)
+    url: https://buymeacoffee.com/j_emmons_07
+    icon: fa-solid fa-heart

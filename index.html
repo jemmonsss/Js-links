@@ -7,9 +7,37 @@ title: J_emmons_07 — Links
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ page.title }}</title>
-    <meta name="description" content="{{ site.description }}" />
-    <link rel="icon" type="image/png" href="logo.png" />
+  <title>{{ page.title }}</title>
+  <meta name="description" content="{{ site.description }}" />
+
+  <!-- Favicon / Apple touch icon -->
+  <link rel="icon" type="image/png" sizes="96x96" href="{{ site.baseurl }}/logo.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/logo.png" />
+  <!-- A real favicon.ico (multi-size .ico file) is recommended for broader browser support. -->
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{{ site.url }}{{ site.baseurl }}/" />
+
+  <!-- Performance hints -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+
+  <!-- Open Graph / Discord / Slack / Twitter previews -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{{ site.author }} — Links" />
+  <meta property="og:description" content="{{ site.description }}" />
+  <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}/" />
+  <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/logo.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="96" />
+  <meta property="og:image:height" content="96" />
+  <!-- Replace logo.png with a 1200×630px preview image for larger social embeds (Discord summary_large_image). -->
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="{{ site.author }} — Links" />
+  <meta name="twitter:description" content="{{ site.description }}" />
+  <meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}/logo.png" />
+  <!-- Use summary_large_image only if you upload a larger OG banner (300×157px minimum). -->
 
   <!-- The one JS file for front-end styling: Tailwind CSS Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,9 +46,9 @@ title: J_emmons_07 — Links
       theme: {
         extend: {
           colors: {
-            ink: "#16161a",        // dark gray background
-            panel: "#1f1f25",      // slightly lighter panel
-            neon: "#a855f7",       // neon-ish purple
+            ink: "#16161a",
+            panel: "#1f1f25",
+            neon: "#a855f7",
             neon2: "#c084fc",
           },
           boxShadow: {
@@ -34,23 +62,25 @@ title: J_emmons_07 — Links
     };
   </script>
 
-  <style>
-    body {
-      background:
-        radial-gradient(1200px 600px at 50% -10%, rgba(168, 85, 247, 0.15), transparent 60%),
-        #16161a;
-    }
-    .link-card {
-      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-      min-width: 0;
-      overflow-wrap: anywhere;
-    }
-    .link-card:hover {
-      transform: translateY(-2px);
-      border-color: #a855f7;
-      box-shadow: 0 0 22px rgba(168, 85, 247, 0.45);
-    }
-  </style>
+  <!-- Icons: FontAwesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Privacy-friendly analytics (optional) -->
+  <!-- Plausible (default): sign up at plausible.io, verify jemmonsss.github.io, then deploy. -->
+  <script defer data-domain="jemmonsss.github.io" src="https://plausible.io/js/script.js"></script>
+  <!--
+  <!-- Umami alternative: replace the Plausible script above with your Umami snippet. -->
+  <!-- Custom lightweight counter: uncomment the block below to track visitors in a single file. -->
+  <!--
+  <script>
+    // Tiny custom hit counter — stores a visitor flag in localStorage for 24h.
+    (function() {
+      if (localStorage.getItem('visited') && Date.now() - localStorage.getItem('visited') < 86400000) return;
+      localStorage.setItem('visited', Date.now());
+      fetch('/count', { method: 'POST', mode: 'no-cors' }).catch(() => {});
+    })();
+  </script>
+  -->
 </head>
 
 <body class="min-h-screen font-display text-gray-200 antialiased">
@@ -61,7 +91,7 @@ title: J_emmons_07 — Links
       <div class="absolute inset-0 rounded-full bg-neon opacity-30 blur-xl"></div>
       <div class="absolute inset-1 rounded-full border border-neon/40"></div>
       <img
-        src="logo.png"
+        src="{{ site.baseurl }}/logo.png"
         alt="Profile picture"
         onerror="this.onerror=null; this.src=&quot;data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'&gt;&lt;rect width='96' height='96' fill='%231f1f25'/&gt;&lt;text x='50%25' y='54%25' font-size='40' fill='%23a855f7' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif'&gt;J&lt;/text&gt;&lt;/svg&gt;&quot;;"
         class="relative h-20 w-20 rounded-full border-2 border-neon object-cover shadow-neon sm:h-24 sm:w-24"
@@ -72,74 +102,45 @@ title: J_emmons_07 — Links
 
     <!-- Links -->
     <nav class="mt-8 flex w-full flex-col gap-6">
-      <!-- Socials -->
+      {% for category in site.data.links %}
       <section>
-        <h2 class="mb-2 text-xs font-semibold uppercase tracking-widest text-neon">Socials</h2>
+        <h2 class="mb-2 text-xs font-semibold uppercase tracking-widest text-neon">{{ category[0] }}</h2>
         <div class="flex flex-col gap-3">
-          <a href="https://www.tiktok.com/@J_emmons_07" target="_blank" rel="noopener"
-             class="link-card flex items-center justify-center rounded-xl border border-white/10 bg-panel px-5 py-4 text-center font-medium text-white">
-            TikTok
+          {% for link in category[1] %}
+          <a href="{{ link.url }}" target="_blank" rel="noopener"
+             class="link-card flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-panel px-5 py-4 text-center font-medium text-white"
+             style="animation-delay: {{ forloop.index0 | times: 0.06 }}s">
+            <i class="{{ link.icon }} text-lg" aria-hidden="true"></i>
+            <span>{{ link.title }}</span>
           </a>
-          <a href="https://www.youtube.com/@J_emmons_07" target="_blank" rel="noopener"
-             class="link-card flex items-center justify-center rounded-xl border border-white/10 bg-panel px-5 py-4 text-center font-medium text-white">
-            YouTube — J_emmons_07
-          </a>
-          <a href="https://www.youtube.com/@grandom_1" target="_blank" rel="noopener"
-             class="link-card flex items-center justify-center rounded-xl border border-white/10 bg-panel px-5 py-4 text-center font-medium text-white">
-            YouTube — GrandoMs
-          </a>
-          <a href="https://scratch.mit.edu/users/jemmons/" target="_blank" rel="noopener"
-             class="link-card flex items-center justify-center rounded-xl border border-white/10 bg-panel px-5 py-4 text-center font-medium text-white">
-            Scratch
-          </a>
+          {% endfor %}
         </div>
       </section>
-
-      <!-- My Projects -->
-      <section>
-        <h2 class="mb-2 text-xs font-semibold uppercase tracking-widest text-neon">My Projects</h2>
-        <div class="flex flex-col gap-3">
-          <a href="https://jemmonsss.github.io/Js-Store" target="_blank" rel="noopener"
-             class="link-card flex items-center justify-center rounded-xl border border-white/10 bg-panel px-5 py-4 text-center font-medium text-white">
-            Js-Scripts (FiveM)
-          </a>
-          <a href="https://github.com/jemmonsss?tab=repositories" target="_blank" rel="noopener"
-             class="link-card flex items-center justify-center rounded-xl border border-white/10 bg-panel px-5 py-4 text-center font-medium text-white">
-            GitHub
-          </a>
-          <a href="https://jemmonsss.github.io/Js-Affliatelinks" target="_blank" rel="noopener"
-             class="link-card flex items-center justify-center rounded-xl border border-white/10 bg-panel px-5 py-4 text-center font-medium text-white">
-            My Affiliate Links
-          </a>
-        </div>
-      </section>
-
-      <!-- Gaming -->
-      <section>
-        <h2 class="mb-2 text-xs font-semibold uppercase tracking-widest text-neon">Gaming</h2>
-        <div class="flex flex-col gap-3">
-          <a href="https://www.robertsspaceindustries.com/enlist?referral=STAR-3QC6-3B2F" target="_blank" rel="noopener"
-             class="link-card flex items-center justify-center rounded-xl border border-white/10 bg-panel px-5 py-4 text-center font-medium text-white">
-            Star Citizen Referral Code
-          </a>
-        </div>
-      </section>
-
-      <!-- Support -->
-      <section>
-        <h2 class="mb-2 text-xs font-semibold uppercase tracking-widest text-neon">Support</h2>
-        <div class="flex flex-col gap-3">
-          <a href="https://buymeacoffee.com/j_emmons_07" target="_blank" rel="noopener"
-             class="link-card flex items-center justify-center rounded-xl border border-white/10 bg-panel px-5 py-4 text-center font-medium text-white">
-            Support me :)
-          </a>
-        </div>
-      </section>
+      {% endfor %}
     </nav>
 
     <footer class="mt-auto pt-10 text-xs text-gray-500">
       Made by {{ site.author }}. Hosted on GitHub Pages.
     </footer>
   </main>
+
+  <style>
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .link-card {
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      min-width: 0;
+      overflow-wrap: anywhere;
+      animation: fadeInUp 0.35s ease both;
+    }
+    .link-card:hover {
+      transform: translateY(-2px);
+      border-color: #a855f7;
+      box-shadow: 0 0 22px rgba(168, 85, 247, 0.45);
+    }
+  </style>
 </body>
 </html>

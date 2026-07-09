@@ -3,9 +3,8 @@ title: J_emmons_07
 description: All my links in one place.
 author: J_emmons_07
 
-# Set these when you get your own domain:
-# url: "https://yourdomain.com"
-# baseurl: ""            # e.g. "/Js-links" if this is a project page
+url: "https://jemmonsss.github.io"
+baseurl: "/Js-links"            # e.g. "/Js-links" if this is a project page
 
 # Build settings
 markdown: kramdown
