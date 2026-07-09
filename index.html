@@ -110,7 +110,12 @@ title: J_emmons_07 — Links
           <a href="{{ link.url }}" target="_blank" rel="noopener"
              class="link-card flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-panel px-5 py-4 text-center font-medium text-white"
              style="animation-delay: {{ forloop.index0 | times: 0.06 }}s">
-            {% if link.svg %}{{ link.svg }}{% else %}<i class="{{ link.icon }} text-lg" aria-hidden="true"></i>{% endif %}
+            {% if link.image %}
+            <img src="{{ link.image }}" width="20" height="20" alt="" aria-hidden="true" loading="lazy"
+                 class="h-5 w-5 shrink-0 object-contain" {% if link.image contains 'data:image/png;base64,' %}onerror="this.style.display='none'"{% endif %} />
+            {% else %}
+            <i class="{{ link.icon }} text-lg" aria-hidden="true"></i>
+            {% endif %}
             <span>{{ link.title }}</span>
           </a>
           {% endfor %}
