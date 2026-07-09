@@ -1,10 +1,14 @@
+---
+layout: none
+title: J_emmons_07 — Links
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>J_emmons_07 — Links</title>
-    <meta name="description" content="All my links in one place." />
+    <title>{{ page.title }}</title>
+    <meta name="description" content="{{ site.description }}" />
     <link rel="icon" type="image/png" href="logo.png" />
 
   <!-- The one JS file for front-end styling: Tailwind CSS Play CDN -->
@@ -63,7 +67,7 @@
         class="relative h-20 w-20 rounded-full border-2 border-neon object-cover shadow-neon sm:h-24 sm:w-24"
       />
     </div>
-    <h1 class="mt-4 text-2xl font-bold text-white">J_emmons_07</h1>
+    <h1 class="mt-4 text-2xl font-bold text-white">{{ site.author }}</h1>
     <p class="mt-1 text-sm text-gray-400">Just a random guy on the Internet</p>
 
     <!-- Links -->
@@ -134,7 +138,7 @@
     </nav>
 
     <footer class="mt-auto pt-10 text-xs text-gray-500">
-      Made by J_emmons_07. Hosted on GitHub Pages.
+      Made by {{ site.author }}. Hosted on GitHub Pages.
     </footer>
   </main>
 </body>

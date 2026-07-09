@@ -1,0 +1,19 @@
+# Site settings (used by Jekyll / Liquid in index.html)
+title: J_emmons_07
+description: All my links in one place.
+author: J_emmons_07
+
+# Set these when you get your own domain:
+# url: "https://yourdomain.com"
+# baseurl: ""            # e.g. "/Js-links" if this is a project page
+
+# Build settings
+markdown: kramdown
+encoding: utf-8
+
+# Files Jekyll should not publish
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
