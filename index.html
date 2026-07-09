@@ -110,7 +110,7 @@ title: J_emmons_07 — Links
           <a href="{{ link.url }}" target="_blank" rel="noopener"
              class="link-card flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-panel px-5 py-4 text-center font-medium text-white"
              style="animation-delay: {{ forloop.index0 | times: 0.06 }}s">
-            <i class="{{ link.icon }} text-lg" aria-hidden="true"></i>
+            {% if link.svg %}{{ link.svg }}{% else %}<i class="{{ link.icon }} text-lg" aria-hidden="true"></i>{% endif %}
             <span>{{ link.title }}</span>
           </a>
           {% endfor %}
@@ -125,6 +125,12 @@ title: J_emmons_07 — Links
   </main>
 
   <style>
+    body {
+      background:
+        radial-gradient(1200px 600px at 50% -10%, rgba(168, 85, 247, 0.15), transparent 60%),
+        #16161a;
+    }
+
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }

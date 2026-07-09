@@ -18,11 +18,32 @@ Socials:
   - title: Scratch
     url: https://scratch.mit.edu/users/jemmons/
     icon: fa-solid fa-puzzle-piece
+    svg: |
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20" height="20" aria-hidden="true">
+        <circle cx="50" cy="52" r="40" fill="#FFAB00"/>
+        <polygon points="22,22 8,0 32,18" fill="#FFAB00"/>
+        <polygon points="78,22 92,0 68,18" fill="#FFAB00"/>
+        <polygon points="24,26 12,8 30,20" fill="#E69100"/>
+        <polygon points="76,26 88,8 70,20" fill="#E69100"/>
+        <circle cx="36" cy="50" r="7" fill="white"/>
+        <circle cx="64" cy="50" r="7" fill="white"/>
+        <circle cx="36" cy="50" r="3.5" fill="#4D4D4D"/>
+        <circle cx="64" cy="50" r="3.5" fill="#4D4D4D"/>
+        <ellipse cx="50" cy="64" rx="6" ry="4" fill="#4D4D4D"/>
+        <path d="M44 72 Q50 78 56 72" stroke="#4D4D4D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <line x1="24" y1="14" x2="32" y2="18" stroke="#4D4D4D" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="76" y1="14" x2="68" y2="18" stroke="#4D4D4D" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
 
 "My Projects":
   - title: Js-Scripts (FiveM)
     url: https://jemmonsss.github.io/Js-Store
     icon: fa-solid fa-code
+    svg: |
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <circle cx="12" cy="12" r="12" fill="#E53935"/>
+        <path d="M7 7h10v3h-3v11h-2V10H7V7z" fill="white"/>
+      </svg>
 
   - title: GitHub
     url: https://github.com/jemmonsss?tab=repositories
