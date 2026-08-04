@@ -131,11 +131,74 @@ title: J_emmons_07 — Links
     </footer>
   </main>
 
+  <!-- Hidden until Jekyll discovers at least one /data/*.mp3 file. -->
+  <section
+    id="music-player"
+    class="music-player fixed inset-x-4 bottom-4 z-40 mx-auto hidden max-w-md rounded-2xl border border-white/10 bg-panel/95 p-3 shadow-neon backdrop-blur-xl sm:p-4"
+    aria-label="Background music player"
+  >
+    <audio id="music-audio" preload="auto"></audio>
+
+    <div class="flex min-w-0 items-center gap-3">
+      <div class="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-ink sm:h-16 sm:w-16">
+        <div id="music-artwork-placeholder" class="absolute inset-0 flex items-center justify-center text-xl text-neon" aria-hidden="true">
+          <i class="fa-solid fa-music"></i>
+        </div>
+        <img id="music-artwork" class="relative h-full w-full object-cover" alt="" />
+      </div>
+
+      <div class="min-w-0 flex-1">
+        <div class="flex items-start justify-between gap-2">
+          <div class="min-w-0">
+            <p class="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-neon">Now playing</p>
+            <p id="music-title" class="truncate text-sm font-medium text-white sm:text-base">Background music</p>
+          </div>
+          <button id="music-mute" type="button" class="music-control h-9 w-9 shrink-0 text-gray-300 hover:text-white" aria-label="Mute music">
+            <i id="music-volume-icon" class="fa-solid fa-volume-high" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <div class="mt-2 flex items-center gap-2">
+          <span id="music-current-time" class="w-9 shrink-0 text-right text-[0.65rem] tabular-nums text-gray-400">0:00</span>
+          <input
+            id="music-progress"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+            step="0.1"
+            class="min-w-0 flex-1 cursor-pointer"
+            aria-label="Song progress"
+          />
+          <span id="music-duration" class="w-9 shrink-0 text-[0.65rem] tabular-nums text-gray-400">0:00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3 flex items-center justify-center gap-4">
+      <button id="music-previous" type="button" class="music-control h-10 w-10 text-gray-200 hover:text-white" aria-label="Previous song">
+        <i class="fa-solid fa-backward-step" aria-hidden="true"></i>
+      </button>
+      <button id="music-play" type="button" class="music-control music-control-primary h-12 w-12 bg-neon text-white" aria-label="Play music">
+        <i id="music-play-icon" class="fa-solid fa-play" aria-hidden="true"></i>
+      </button>
+      <button id="music-next" type="button" class="music-control h-10 w-10 text-gray-200 hover:text-white" aria-label="Next song">
+        <i class="fa-solid fa-forward-step" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <p id="music-status" class="sr-only" aria-live="polite"></p>
+  </section>
+
   <style>
     body {
       background:
         radial-gradient(1200px 600px at 50% -10%, rgba(168, 85, 247, 0.15), transparent 60%),
         #16161a;
+    }
+
+    body.music-enabled main {
+      padding-bottom: 11rem;
     }
 
     @keyframes fadeInUp {
@@ -149,11 +212,309 @@ title: J_emmons_07 — Links
       overflow-wrap: anywhere;
       animation: fadeInUp 0.35s ease both;
     }
+
     .link-card:hover {
       transform: translateY(-2px);
       border-color: #a855f7;
       box-shadow: 0 0 22px rgba(168, 85, 247, 0.45);
     }
+
+    .music-player {
+      animation: fadeInUp 0.35s ease both;
+    }
+
+    .music-control {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      transition: color 0.15s ease, background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .music-control:hover {
+      transform: scale(1.06);
+    }
+
+    .music-control:focus-visible,
+    #music-progress:focus-visible {
+      outline: 2px solid #c084fc;
+      outline-offset: 3px;
+    }
+
+    .music-control-primary:hover {
+      box-shadow: 0 0 18px rgba(168, 85, 247, 0.6);
+    }
+
+    #music-progress {
+      height: 1rem;
+      accent-color: #a855f7;
+    }
+
+    @media (min-width: 640px) {
+      body.music-enabled main {
+        padding-bottom: 10rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .link-card,
+      .music-player {
+        animation: none;
+      }
+
+      .link-card,
+      .music-control {
+        transition: none;
+      }
+    }
   </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      "use strict";
+
+      {% assign sorted_static_files = site.static_files | sort: "name" %}
+      const playlist = [
+        {% assign has_emitted_track = false %}
+        {% for music_file in sorted_static_files %}
+          {% assign music_path_lower = music_file.path | downcase %}
+          {% assign music_path_prefix = music_path_lower | slice: 0, 6 %}
+          {% assign music_extension = music_file.extname | downcase %}
+          {% if music_path_prefix == '/data/' and music_extension == '.mp3' %}
+            {% assign music_directory = music_file.path | remove: music_file.name %}
+            {% assign encoded_music_name = music_file.name | cgi_escape | replace: '+', '%20' %}
+            {% capture encoded_audio_path %}{{ music_directory }}{{ encoded_music_name }}{% endcapture %}
+            {% assign audio_url = encoded_audio_path | strip | relative_url %}
+            {% assign artwork_path = '' %}
+            {% assign artwork_extensions = '.webp|.png|.jpg|.jpeg|.gif' | split: '|' %}
+            {% for artwork_extension in artwork_extensions %}
+              {% if artwork_path == '' %}
+                {% capture expected_artwork_path %}{{ music_directory }}{{ music_file.basename }}{{ artwork_extension }}{% endcapture %}
+                {% assign expected_artwork_path_lower = expected_artwork_path | downcase | strip %}
+                {% for candidate_file in sorted_static_files %}
+                  {% assign candidate_path_lower = candidate_file.path | downcase %}
+                  {% if candidate_path_lower == expected_artwork_path_lower %}
+                    {% assign candidate_directory = candidate_file.path | remove: candidate_file.name %}
+                    {% assign encoded_candidate_name = candidate_file.name | cgi_escape | replace: '+', '%20' %}
+                    {% capture encoded_artwork_path %}{{ candidate_directory }}{{ encoded_candidate_name }}{% endcapture %}
+                    {% assign artwork_path = encoded_artwork_path | strip | relative_url %}
+                    {% break %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+            {% assign display_title = music_file.basename | replace: '_', ' ' | replace: '--', ' ' | normalize_whitespace | strip %}
+            {% if has_emitted_track %},{% endif %}
+            {
+              "title": {{ display_title | jsonify }},
+              "audioUrl": {{ audio_url | strip | jsonify }},
+              "artworkUrl": {% if artwork_path != '' %}{{ artwork_path | jsonify }}{% else %}{{ '/logo.png' | relative_url | jsonify }}{% endif %}
+            }
+            {% assign has_emitted_track = true %}
+          {% endif %}
+        {% endfor %}
+      ];
+
+      const player = document.getElementById("music-player");
+      const audio = document.getElementById("music-audio");
+      const artwork = document.getElementById("music-artwork");
+      const artworkPlaceholder = document.getElementById("music-artwork-placeholder");
+      const titleLabel = document.getElementById("music-title");
+      const previousButton = document.getElementById("music-previous");
+      const playButton = document.getElementById("music-play");
+      const playIcon = document.getElementById("music-play-icon");
+      const nextButton = document.getElementById("music-next");
+      const muteButton = document.getElementById("music-mute");
+      const volumeIcon = document.getElementById("music-volume-icon");
+      const progressInput = document.getElementById("music-progress");
+      const currentTimeLabel = document.getElementById("music-current-time");
+      const durationLabel = document.getElementById("music-duration");
+      const status = document.getElementById("music-status");
+
+      let currentTrackIndex = 0;
+      let autoplayFallbackInstalled = false;
+
+      function formatTime(seconds) {
+        if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, "0");
+        return `${minutes}:${remainingSeconds}`;
+      }
+
+      function setStatus(message) {
+        status.textContent = message;
+      }
+
+      function updateProgress() {
+        const hasDuration = Number.isFinite(audio.duration) && audio.duration > 0;
+        const progress = hasDuration ? (audio.currentTime / audio.duration) * 100 : 0;
+
+        progressInput.value = String(progress);
+        currentTimeLabel.textContent = formatTime(audio.currentTime);
+        durationLabel.textContent = formatTime(hasDuration ? audio.duration : 0);
+      }
+
+      function updatePlayButton() {
+        const isPlaying = !audio.paused && !audio.ended;
+        playIcon.className = isPlaying ? "fa-solid fa-pause" : "fa-solid fa-play";
+        playButton.setAttribute("aria-label", isPlaying ? "Pause music" : "Play music");
+      }
+
+      function updateMuteButton() {
+        const isMuted = audio.muted || audio.volume === 0;
+        volumeIcon.className = isMuted ? "fa-solid fa-volume-xmark" : "fa-solid fa-volume-high";
+        muteButton.setAttribute("aria-label", isMuted ? "Unmute music" : "Mute music");
+      }
+
+      function showArtworkPlaceholder() {
+        artwork.classList.add("hidden");
+        artworkPlaceholder.classList.remove("hidden");
+      }
+
+      function updateArtwork(url, trackTitle) {
+        artwork.alt = `${trackTitle} cover art`;
+        artworkPlaceholder.classList.remove("hidden");
+        artwork.classList.remove("hidden");
+        artwork.src = url;
+      }
+
+      function removeAutoplayFallback() {
+        if (!autoplayFallbackInstalled) return;
+
+        document.removeEventListener("pointerdown", handleAutoplayFallback);
+        document.removeEventListener("touchstart", handleAutoplayFallback);
+        document.removeEventListener("keydown", handleAutoplayFallback);
+        autoplayFallbackInstalled = false;
+      }
+
+      function installAutoplayFallback() {
+        if (autoplayFallbackInstalled) return;
+
+        document.addEventListener("pointerdown", handleAutoplayFallback, { passive: true });
+        document.addEventListener("touchstart", handleAutoplayFallback, { passive: true });
+        document.addEventListener("keydown", handleAutoplayFallback);
+        autoplayFallbackInstalled = true;
+      }
+
+      async function attemptPlay() {
+        try {
+          await audio.play();
+          removeAutoplayFallback();
+          return true;
+        } catch (error) {
+          installAutoplayFallback();
+          console.info("Background music autoplay was blocked; playback will retry after the first interaction.", error);
+          return false;
+        }
+      }
+
+      function handleAutoplayFallback(event) {
+        if (event.target instanceof Element && event.target.closest("#music-play, #music-previous, #music-next")) {
+          return;
+        }
+
+        void attemptPlay();
+      }
+
+      function normalizeTrackIndex(index) {
+        return (index + playlist.length) % playlist.length;
+      }
+
+      function loadTrack(index, shouldPlay) {
+        if (playlist.length === 0) return;
+
+        currentTrackIndex = normalizeTrackIndex(index);
+        const track = playlist[currentTrackIndex];
+
+        titleLabel.textContent = track.title;
+        updateArtwork(track.artworkUrl, track.title);
+        progressInput.value = "0";
+        currentTimeLabel.textContent = "0:00";
+        durationLabel.textContent = "0:00";
+        audio.src = track.audioUrl;
+        audio.load();
+        setStatus(`Loaded ${track.title}`);
+
+        if (shouldPlay) void attemptPlay();
+      }
+
+      function playNextTrack() {
+        loadTrack(currentTrackIndex + 1, true);
+      }
+
+      function playPreviousTrack() {
+        if (audio.currentTime > 3) {
+          audio.currentTime = 0;
+          updateProgress();
+          void attemptPlay();
+          return;
+        }
+
+        loadTrack(currentTrackIndex - 1, true);
+      }
+
+      async function togglePlayback() {
+        if (audio.paused) {
+          await attemptPlay();
+        } else {
+          audio.pause();
+        }
+      }
+
+      function toggleMute() {
+        audio.muted = !audio.muted;
+      }
+
+      function seekToProgress() {
+        if (!Number.isFinite(audio.duration) || audio.duration <= 0) return;
+
+        audio.currentTime = (Number(progressInput.value) / 100) * audio.duration;
+        updateProgress();
+      }
+
+      if (playlist.length === 0) {
+        player.classList.add("hidden");
+        console.info("Music player disabled: add one or more .mp3 files to the /data folder.");
+        return;
+      }
+
+      player.classList.remove("hidden");
+      document.body.classList.add("music-enabled");
+      audio.volume = 0.35;
+
+      artwork.addEventListener("load", () => {
+        artwork.classList.remove("hidden");
+        artworkPlaceholder.classList.add("hidden");
+      });
+      artwork.addEventListener("error", showArtworkPlaceholder);
+      previousButton.addEventListener("click", playPreviousTrack);
+      playButton.addEventListener("click", () => void togglePlayback());
+      nextButton.addEventListener("click", playNextTrack);
+      muteButton.addEventListener("click", toggleMute);
+      progressInput.addEventListener("input", seekToProgress);
+
+      audio.addEventListener("play", () => {
+        updatePlayButton();
+        removeAutoplayFallback();
+        setStatus(`Playing ${playlist[currentTrackIndex].title}`);
+      });
+      audio.addEventListener("pause", updatePlayButton);
+      audio.addEventListener("ended", playNextTrack);
+      audio.addEventListener("loadedmetadata", updateProgress);
+      audio.addEventListener("timeupdate", updateProgress);
+      audio.addEventListener("volumechange", updateMuteButton);
+      audio.addEventListener("error", () => {
+        updateProgress();
+        updatePlayButton();
+        console.warn(`Unable to load audio file: ${playlist[currentTrackIndex].audioUrl}`);
+        setStatus(`Could not load ${playlist[currentTrackIndex].title}`);
+      });
+
+      updatePlayButton();
+      updateMuteButton();
+      loadTrack(0, true);
+    });
+  </script>
 </body>
 </html>
