@@ -11,9 +11,9 @@ Socials:
     url: https://www.youtube.com/@J_emmons_07
     icon: fa-brands fa-youtube
 
-  - title: YouTube — GrandoMs
-    url: https://www.youtube.com/@grandom_1
-    icon: fa-brands fa-youtube
+  - title: Insta
+    url: https://www.instagram.com/J_emmons_07/
+    icon: fa-brands fa-instagram
 
   - title: Scratch
     url: https://scratch.mit.edu/users/jemmons/
@@ -41,3 +41,7 @@ Support:
   - title: Support me :)
     url: https://buymeacoffee.com/j_emmons_07
     icon: fa-solid fa-heart
+My Friends:
+    - title: YouTube — GrandoMs
+    url: https://www.youtube.com/@grandom_1
+    icon: fa-brands fa-youtube
