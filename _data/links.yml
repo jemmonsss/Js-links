@@ -12,7 +12,7 @@ Socials:
     icon: fa-brands fa-youtube
 
   - title: Insta
-    url: https://www.instagram.com/J_emmons_07/
+    url: https://www.instagram.com/j_w._07
     icon: fa-brands fa-instagram
 
   - title: Scratch
@@ -31,6 +31,10 @@ Socials:
   - title: My Affiliate Links
     url: https://jemmonsss.github.io/Js-Affliatelinks
     icon: fa-solid fa-tag
+
+  - title: ToolsVault (my website that has a bunch of free tools without any ads)
+    url: https://toolsvault.org
+    
 
 Gaming:
   - title: Star Citizen Referral Code
